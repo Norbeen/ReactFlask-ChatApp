@@ -43,3 +43,7 @@
         self.assertEqual(response[1], jokeList[randNum])
         
 * The above test was to make sure that with !! jokes command, it gave a random joke everytime a user gave the command. 
+
+# Explanation of any additional test or considerations for future
+
+* I wanted to test the database also using different test cases, but due to time constraint I wasn't able to do so. If I had time, I would have tested google login verifications and token receiving in real time.
