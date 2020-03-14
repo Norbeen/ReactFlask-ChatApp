@@ -3,6 +3,11 @@ import os, flask, flask_socketio
 app = flask.Flask(__name__)
 socketio = flask_socketio.SocketIO(app)
 
+@app.route("/")
+
+def hello():
+    return "hello, world!"
+    
 @socketio.on('connect')
 def on_connect():
     socketio.emit("hey client", {
