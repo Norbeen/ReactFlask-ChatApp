@@ -1,0 +1,29 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.6.1
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+      - restore_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+      - run:
+          name: run tests
+          command: |
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
+            python -m tests.unit_tests
+            python -m tests.socketio_tests
+      - save_cache:
+          key: deps1-{{ .Branch }}-{{ checksum "requirements.txt" }}
+          paths:
+            - "venv"
+
+      - run:
+          name: deploy to heroku
+          command: |
+            git push https://heroku:59fa3153-a272-4c77-89e4-ec7c9acdd692@git.heroku.com/vast-badlands-76104.git master
