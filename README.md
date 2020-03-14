@@ -1,33 +1,45 @@
-a. What is the theme you’ll be using for project 2?
+# Decision on placement of 5 different cases.
+1. def test_server_sends_hello(self):
+        r = requests.get(self.get_server_url())
+        self.assertEquals(r.text, 'hello, world!') 
+* The reason I used this test was beacause I wanted to make sure the app was running without any error.
 
-  -I am using a bot named Jarvis, which is interactive and shows you nearest food places name and yelp website link.
+2. def test_server_connecting(self):
+        client =app.socketio.test_client(app.app)
+        
+        response = client.get_received()
+        
+        self.assertEqual(len(response), 1)
+        from_server_connect = response[0]
+        self.assertEqual(from_server_connect['name'], "hey client")
+        
+        data = from_server_connect['args'][0]
+        self.assertEqual(data['connect message'], "hey server")
+        
+* The reason I chose this test was to make sure that there was communication between the server and the client.
 
-b. How did you incorporate your theme within your project?
+3. def test_google_token(self):
+        client = app.socketio.test_client(app.app)
+        client.emit('google-token', {'token': 'this is token'})
+        response = client.get_received()
+        self.assertEqual(len(response), 2)
+        
+        from_server = response[1]
+        self.assertEqual(from_server['name'], 'google token')
+        
+        data = from_server['args'][0]
+        self.assertEqual(data['token'], 'this is token')
+* The reason I chose the test above was to make sure the google token was successfully take in from client to the server.
 
-  -For this project, I am using flask for backend code, socketio for duplex communication, react (javascript framework for server side),   jsx (javascript and html fusion for rendering html and scripts.js), postgresql(to store user messages), authentication (google login),   for the chatbot I am using yelp API. 
+4. def test_JarvisfoodNear(self):
+        response = ChatBot.Bot("nabin","!! Jarvis food near me")
+        self.assertEqual(response[1], resName + " " + resUrl)
+        
+* The reason I used the above test was to make sure the yelp api was spitting out the location and link of the nearest restaurant.
 
-c. What are at least 5 issues you encountered with your project? How did you fix them?
 
-1. First issue was to make sure all the libraries are installed, I had issue installing oauth2 and parse library, I installed them with a little bit of searching.
-
-2. Issue getting data passed to server and client, I used emit and on socketio to do duplex communication with a little documentation study.
-
-3. My code was up and running but I made a mistake in renaming a function, which I later figured out looking at console in chrome and changed the method name.
-
-4. Getting the message to display in textfield, it was hard to incorporate the message with image and the history of the chat, I was finally able to implement postgresql database and conncet to heroku.
-
-5. The deployment of the app in heroku didnt display message, so I had to go over lectures to connect database to heroku.
-
-6. The process of getting google token after authenticating an user was difficult but I was finally able to implement it with going over google developer documentation, also I had to extract name, image which was possible with the documentation.
-
-7. I was using yelp api to get the restaurant near me, it was working fine when I tested it in replit, but while actually implementing in aws, it shows error response doesn't have get command, I am working on that.
-Actually I had called responses library from google auth aswell so it was conflicting, when i deleted the conflicting line of code, it worked.
-
-d. What are known problems, if any, with your project?
-
- -Still in the stage of integrating features, not significant issues.
-
-e. What would you do to tackle these issues?
-
-1. Be ready to read through lines and lines of documentaion, youtube videos won't help, they are not based on aws react.
-2. Work early and practice continous integration
+5. def test_jokes(self):
+        response = ChatBot.Bot("nabin","!! jokes")
+        self.assertEqual(response[1], jokeList[randNum])
+        
+* The above test was to make sure that with !! jokes command, it gave a random joke everytime a user gave the command. 
