@@ -47,3 +47,17 @@
 # Explanation of any additional test or considerations for future
 
 * I wanted to test the database also using different test cases, but due to time constraint I wasn't able to do so. If I had time, I would have tested google login verifications and token receiving in real time.
+
+
+# To run it in your local machine(for flask setup):
+
+* python3 -m venv venv (To create a virtual environment)
+* source venv/bin/activate (activate the virtual environment)
+* pip install -r requirements.txt (install all the required libraries)
+
+# To run it in your local machine(for react babel setup):
+* npm install (install all dependencies)
+* npm install @babel/preset-env --save-dev (save babel)
+* npm run watch (to run the react app)
+
+
